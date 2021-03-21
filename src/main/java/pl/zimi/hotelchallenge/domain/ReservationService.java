@@ -12,21 +12,23 @@ public class ReservationService {
                 .sorted(Comparator.reverseOrder())
                 .limit(request.getFreePremiumRooms())
                 .collect(Collectors.toList());
-        final int sumForPremium = premiumOffers.stream().mapToInt(x -> x).sum();
 
         final List<Integer> economyOffers = request.getOffers().stream()
                 .filter(price -> price < 100)
                 .sorted(Comparator.reverseOrder())
                 .limit(request.getFreeEconomyRooms())
                 .collect(Collectors.toList());
-        final int sumForEconomy = economyOffers.stream().mapToInt(x -> x).sum();
 
         return Report.builder()
-            .economyIncome(sumForEconomy)
+            .economyIncome(sum(economyOffers))
             .usedEconomyRooms(economyOffers.size())
-            .premiumIncome(sumForPremium)
+            .premiumIncome(sum(premiumOffers))
             .usedPremiumRooms(premiumOffers.size())
             .build();
+    }
+
+    private int sum(List<Integer> premiumOffers) {
+        return premiumOffers.stream().mapToInt(x -> x).sum();
     }
 
 }

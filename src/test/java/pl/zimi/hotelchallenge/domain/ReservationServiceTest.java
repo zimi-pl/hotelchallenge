@@ -8,16 +8,12 @@ import java.util.List;
 
 class ReservationServiceTest {
 
-    final List<Integer> clientOffers = Arrays.asList(23, 45, 155, 374, 22, 99, 100, 101, 115, 209);
+    final List<Integer> CLIENT_OFFERS = Arrays.asList(23, 45, 155, 374, 22, 99, 100, 101, 115, 209);
     final ReservationService reservationService = new ReservationService();
 
     @Test
     void fullOccupation() {
-        final Request request = Request.builder()
-            .freePremiumRooms(3)
-            .freeEconomyRooms(3)
-            .offers(clientOffers)
-            .build();
+        final Request request = basicRequest(3, 3);
         final Report report = reservationService.reserve(request);
 
         Assertions.assertThat(report.getUsedPremiumRooms()).isEqualTo(3);
@@ -28,17 +24,21 @@ class ReservationServiceTest {
 
     @Test
     void freeRoomsLeft() {
-        final Request request = Request.builder()
-            .freePremiumRooms(7)
-            .freeEconomyRooms(5)
-            .offers(clientOffers)
-            .build();
+        final Request request = basicRequest(7, 5);
         final Report report = reservationService.reserve(request);
 
         Assertions.assertThat(report.getUsedPremiumRooms()).isEqualTo(6);
         Assertions.assertThat(report.getPremiumIncome()).isEqualTo(1054);
         Assertions.assertThat(report.getUsedEconomyRooms()).isEqualTo(4);
         Assertions.assertThat(report.getEconomyIncome()).isEqualTo(189);
+    }
+
+    private Request basicRequest(int premiumRoomsNumber, int economyRoomsNumber) {
+        return Request.builder()
+                .freePremiumRooms(premiumRoomsNumber)
+                .freeEconomyRooms(economyRoomsNumber)
+                .offers(CLIENT_OFFERS)
+                .build();
     }
 
 
