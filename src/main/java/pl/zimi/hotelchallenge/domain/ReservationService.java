@@ -1,25 +1,31 @@
 package pl.zimi.hotelchallenge.domain;
 
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReservationService {
 
     Report reserve(final Request request) {
-        final int sumForPremium = request.getOffers().stream()
+        final List<Integer> premiumOffers = request.getOffers().stream()
                 .filter(price -> price >= 100)
                 .sorted(Comparator.reverseOrder())
-                .limit(request.getFreePremiumRooms()).mapToInt(x -> x).sum();
+                .limit(request.getFreePremiumRooms())
+                .collect(Collectors.toList());
+        final int sumForPremium = premiumOffers.stream().mapToInt(x -> x).sum();
 
-        final int sumForEconomy = request.getOffers().stream()
+        final List<Integer> economyOffers = request.getOffers().stream()
                 .filter(price -> price < 100)
                 .sorted(Comparator.reverseOrder())
-                .limit(request.getFreeEconomyRooms()).mapToInt(x -> x).sum();
+                .limit(request.getFreeEconomyRooms())
+                .collect(Collectors.toList());
+        final int sumForEconomy = economyOffers.stream().mapToInt(x -> x).sum();
 
         return Report.builder()
             .economyIncome(sumForEconomy)
-            .usedEconomyRooms(request.getFreeEconomyRooms())
+            .usedEconomyRooms(economyOffers.size())
             .premiumIncome(sumForPremium)
-            .usedPremiumRooms(request.getFreePremiumRooms())
+            .usedPremiumRooms(premiumOffers.size())
             .build();
     }
 
