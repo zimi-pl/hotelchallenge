@@ -26,5 +26,20 @@ class ReservationServiceTest {
         Assertions.assertThat(report.getEconomyIncome()).isEqualTo(167);
     }
 
+    @Test
+    void freeRoomsLeft() {
+        final Request request = Request.builder()
+            .freePremiumRooms(7)
+            .freeEconomyRooms(5)
+            .offers(clientOffers)
+            .build();
+        final Report report = reservationService.reserve(request);
+
+        Assertions.assertThat(report.getUsedPremiumRooms()).isEqualTo(6);
+        Assertions.assertThat(report.getPremiumIncome()).isEqualTo(1054);
+        Assertions.assertThat(report.getUsedEconomyRooms()).isEqualTo(4);
+        Assertions.assertThat(report.getEconomyIncome()).isEqualTo(189);
+    }
+
 
 }
