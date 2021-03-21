@@ -23,7 +23,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    void freeRoomsLeft() {
+    void someRoomsLeft() {
         final Request request = basicRequest(7, 5);
         final Report report = reservationService.reserve(request);
 
@@ -32,6 +32,18 @@ class ReservationServiceTest {
         Assertions.assertThat(report.getUsedEconomyRooms()).isEqualTo(4);
         Assertions.assertThat(report.getEconomyIncome()).isEqualTo(189);
     }
+
+    @Test
+    void economyRoomsLeft() {
+        final Request request = basicRequest(2, 7);
+        final Report report = reservationService.reserve(request);
+
+        Assertions.assertThat(report.getUsedPremiumRooms()).isEqualTo(2);
+        Assertions.assertThat(report.getPremiumIncome()).isEqualTo(583);
+        Assertions.assertThat(report.getUsedEconomyRooms()).isEqualTo(4);
+        Assertions.assertThat(report.getEconomyIncome()).isEqualTo(189);
+    }
+
 
     private Request basicRequest(int premiumRoomsNumber, int economyRoomsNumber) {
         return Request.builder()
