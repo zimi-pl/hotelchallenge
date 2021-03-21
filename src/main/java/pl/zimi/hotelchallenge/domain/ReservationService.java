@@ -15,14 +15,12 @@ public class ReservationService {
                 .sorted(Comparator.reverseOrder())
                 .limit(request.getFreeEconomyRooms()).mapToInt(x -> x).sum();
 
-        final Report report = new Report();
-        report.setEconomyIncome(sumForEconomy);
-        report.setUsedEconomyRooms(request.getFreeEconomyRooms());
-
-        report.setPremiumIncome(sumForPremium);
-        report.setUsedPremiumRooms(request.getFreePremiumRooms());
-
-        return report;
+        return Report.builder()
+            .economyIncome(sumForEconomy)
+            .usedEconomyRooms(request.getFreeEconomyRooms())
+            .premiumIncome(sumForPremium)
+            .usedPremiumRooms(request.getFreePremiumRooms())
+            .build();
     }
 
 }

@@ -1,34 +1,18 @@
 package pl.zimi.hotelchallenge.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
 import java.util.List;
 
+@Builder
+@Getter
+@AllArgsConstructor
 public class Request {
 
-    private int freePremiumRooms;
-    private int freeEconomyRooms;
-    private List<Integer> offers;
+    private final int freePremiumRooms;
+    private final int freeEconomyRooms;
+    private final List<Integer> offers;
 
-    public void setFreePremiumRooms(int freePremiumRooms) {
-        this.freePremiumRooms = freePremiumRooms;
-    }
-
-    public int getFreePremiumRooms() {
-        return freePremiumRooms;
-    }
-
-    public void setFreeEconomyRooms(int freeEconomyRooms) {
-        this.freeEconomyRooms = freeEconomyRooms;
-    }
-
-    public int getFreeEconomyRooms() {
-        return freeEconomyRooms;
-    }
-
-    public void setOffers(List<Integer> offers) {
-        this.offers = offers;
-    }
-
-    public List<Integer> getOffers() {
-        return offers;
-    }
 }

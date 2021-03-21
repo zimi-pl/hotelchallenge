@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ReservationServiceTest {
 
     final List<Integer> clientOffers = Arrays.asList(23, 45, 155, 374, 22, 99, 100, 101, 115, 209);
@@ -15,10 +13,11 @@ class ReservationServiceTest {
 
     @Test
     void fullOccupation() {
-        final Request request = new Request();
-        request.setFreePremiumRooms(3);
-        request.setFreeEconomyRooms(3);
-        request.setOffers(clientOffers);
+        final Request request = Request.builder()
+            .freePremiumRooms(3)
+            .freeEconomyRooms(3)
+            .offers(clientOffers)
+            .build();
         final Report report = reservationService.reserve(request);
 
         Assertions.assertThat(report.getUsedPremiumRooms()).isEqualTo(3);

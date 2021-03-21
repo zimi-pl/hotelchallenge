@@ -1,40 +1,15 @@
 package pl.zimi.hotelchallenge.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Builder
+@Getter
 public class Report {
-    private int usedPremiumRooms;
-    private int premiumIncome;
-    private int usedEconomyRooms;
-    private int economyIncome;
-
-    public int getUsedPremiumRooms() {
-        return usedPremiumRooms;
-    }
-
-    public void setUsedPremiumRooms(int usedPremiumRooms) {
-        this.usedPremiumRooms = usedPremiumRooms;
-    }
-
-    public int getPremiumIncome() {
-        return premiumIncome;
-    }
-
-    public void setPremiumIncome(int premiumIncome) {
-        this.premiumIncome = premiumIncome;
-    }
-
-    public int getUsedEconomyRooms() {
-        return usedEconomyRooms;
-    }
-
-    public void setUsedEconomyRooms(int usedEconomyRooms) {
-        this.usedEconomyRooms = usedEconomyRooms;
-    }
-
-    public int getEconomyIncome() {
-        return economyIncome;
-    }
-
-    public void setEconomyIncome(int economyIncome) {
-        this.economyIncome = economyIncome;
-    }
+    private final int usedPremiumRooms;
+    private final int premiumIncome;
+    private final int usedEconomyRooms;
+    private final int economyIncome;
 }
