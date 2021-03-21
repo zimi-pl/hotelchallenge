@@ -45,7 +45,7 @@ class ReservationServiceTest {
     }
 
     @Test
-    void enforceUpgrade() {
+    void enforceUpgradeWhenOtherwiseHotelIsOutOfRoom() {
         final Request request = basicRequest(7, 1);
         final Report report = reservationService.reserve(request);
 
