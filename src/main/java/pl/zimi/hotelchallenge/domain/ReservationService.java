@@ -32,8 +32,9 @@ public class ReservationService {
         final List<Integer> chosenEconomyOffersAll = new ArrayList<>(allEconomyOffers);
         chosenEconomyOffersAll.removeAll(upgradeOffers);
 
-        final List<Integer> chosenEconomyOffers = chosenEconomyOffersAll.stream().limit(request.getFreeEconomyRooms()).collect(Collectors.toList());
-        return chosenEconomyOffers;
+        return chosenEconomyOffersAll.stream()
+                .limit(request.getFreeEconomyRooms())
+                .collect(Collectors.toList());
     }
 
     private List<Integer> choosePremiumOffers(Request request, List<Integer> allPremiumOffers, List<Integer> upgradeOffers) {
@@ -46,8 +47,7 @@ public class ReservationService {
         int leftPremiumRooms = request.getFreePremiumRooms() - allPremiumOffers.size();
         int missingEconomyRooms = allEconomyOffers.size() - request.getFreeEconomyRooms();
         int upgradingRoomsNumber = Math.max(Math.min(leftPremiumRooms, missingEconomyRooms), 0);
-        final List<Integer> upgradeOffers = allEconomyOffers.subList(0, upgradingRoomsNumber);
-        return upgradeOffers;
+        return allEconomyOffers.subList(0, upgradingRoomsNumber);
     }
 
     private List<Integer> filterEconomyOffers(Request request) {
