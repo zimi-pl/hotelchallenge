@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Builder
 @Getter
-public class Report {
-    private final RoomGroup premium;
-    private final RoomGroup economy;
+@AllArgsConstructor
+public class RoomGroup {
+
+    private final int rooms;
+    private final int income;
 }

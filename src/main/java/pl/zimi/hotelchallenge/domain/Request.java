@@ -11,8 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Request {
 
-    private final int freePremiumRooms;
-    private final int freeEconomyRooms;
+    private final int emptyPremiumRooms;
+    private final int emptyEconomyRooms;
     private final List<Integer> offers;
 
 }

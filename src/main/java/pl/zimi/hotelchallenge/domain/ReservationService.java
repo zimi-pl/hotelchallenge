@@ -19,52 +19,56 @@ public class ReservationService {
 
         final List<Integer> chosenEconomyOffers = chooseEconomyOffers(request, allEconomyOffers, upgradeOffers);
 
-
         return Report.builder()
-            .economyIncome(sum(chosenEconomyOffers))
-            .usedEconomyRooms(chosenEconomyOffers.size())
-            .premiumIncome(sum(chosenPremiumOffers))
-            .usedPremiumRooms(chosenPremiumOffers.size())
+            .economy(makeGroup(chosenEconomyOffers))
+            .premium(makeGroup(chosenPremiumOffers))
             .build();
     }
 
-    private List<Integer> chooseEconomyOffers(Request request, List<Integer> allEconomyOffers, List<Integer> upgradeOffers) {
+    private RoomGroup makeGroup(final List<Integer> chosenPremiumOffers) {
+        return RoomGroup.builder()
+                .rooms(chosenPremiumOffers.size())
+                .income(sum(chosenPremiumOffers))
+                .build();
+    }
+
+    private List<Integer> chooseEconomyOffers(final Request request, final List<Integer> allEconomyOffers, final List<Integer> upgradeOffers) {
         final List<Integer> chosenEconomyOffersAll = new ArrayList<>(allEconomyOffers);
         chosenEconomyOffersAll.removeAll(upgradeOffers);
 
         return chosenEconomyOffersAll.stream()
-                .limit(request.getFreeEconomyRooms())
+                .limit(request.getEmptyEconomyRooms())
                 .collect(Collectors.toList());
     }
 
-    private List<Integer> choosePremiumOffers(Request request, List<Integer> allPremiumOffers, List<Integer> upgradeOffers) {
+    private List<Integer> choosePremiumOffers(final Request request, final List<Integer> allPremiumOffers, final List<Integer> upgradeOffers) {
         return Stream.concat(allPremiumOffers.stream(), upgradeOffers.stream())
-                .limit(request.getFreePremiumRooms())
+                .limit(request.getEmptyPremiumRooms())
                 .collect(Collectors.toList());
     }
 
-    private List<Integer> computeUpgradeOffers(Request request, List<Integer> allPremiumOffers, List<Integer> allEconomyOffers) {
-        int leftPremiumRooms = request.getFreePremiumRooms() - allPremiumOffers.size();
-        int missingEconomyRooms = allEconomyOffers.size() - request.getFreeEconomyRooms();
+    private List<Integer> computeUpgradeOffers(final Request request, final List<Integer> allPremiumOffers, final List<Integer> allEconomyOffers) {
+        int leftPremiumRooms = request.getEmptyPremiumRooms() - allPremiumOffers.size();
+        int missingEconomyRooms = allEconomyOffers.size() - request.getEmptyEconomyRooms();
         int upgradingRoomsNumber = Math.max(Math.min(leftPremiumRooms, missingEconomyRooms), 0);
         return allEconomyOffers.subList(0, upgradingRoomsNumber);
     }
 
-    private List<Integer> filterEconomyOffers(Request request) {
+    private List<Integer> filterEconomyOffers(final Request request) {
         return request.getOffers().stream()
                 .filter(price -> price < 100)
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
     }
 
-    private List<Integer> filterPremiumOffers(Request request) {
+    private List<Integer> filterPremiumOffers(final Request request) {
         return request.getOffers().stream()
                 .filter(price -> price >= 100)
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
     }
 
-    private int sum(List<Integer> premiumOffers) {
+    private int sum(final List<Integer> premiumOffers) {
         return premiumOffers.stream().mapToInt(x -> x).sum();
     }
 

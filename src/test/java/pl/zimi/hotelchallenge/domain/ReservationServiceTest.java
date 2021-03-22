@@ -16,10 +16,10 @@ class ReservationServiceTest {
         final Request request = basicRequest(3, 3);
         final Report report = reservationService.reserve(request);
 
-        Assertions.assertThat(report.getUsedPremiumRooms()).isEqualTo(3);
-        Assertions.assertThat(report.getPremiumIncome()).isEqualTo(738);
-        Assertions.assertThat(report.getUsedEconomyRooms()).isEqualTo(3);
-        Assertions.assertThat(report.getEconomyIncome()).isEqualTo(167);
+        Assertions.assertThat(report.getPremium().getRooms()).isEqualTo(3);
+        Assertions.assertThat(report.getPremium().getIncome()).isEqualTo(738);
+        Assertions.assertThat(report.getEconomy().getRooms()).isEqualTo(3);
+        Assertions.assertThat(report.getEconomy().getIncome()).isEqualTo(167);
     }
 
     @Test
@@ -27,10 +27,10 @@ class ReservationServiceTest {
         final Request request = basicRequest(7, 5);
         final Report report = reservationService.reserve(request);
 
-        Assertions.assertThat(report.getUsedPremiumRooms()).isEqualTo(6);
-        Assertions.assertThat(report.getPremiumIncome()).isEqualTo(1054);
-        Assertions.assertThat(report.getUsedEconomyRooms()).isEqualTo(4);
-        Assertions.assertThat(report.getEconomyIncome()).isEqualTo(189);
+        Assertions.assertThat(report.getPremium().getRooms()).isEqualTo(6);
+        Assertions.assertThat(report.getPremium().getIncome()).isEqualTo(1054);
+        Assertions.assertThat(report.getEconomy().getRooms()).isEqualTo(4);
+        Assertions.assertThat(report.getEconomy().getIncome()).isEqualTo(189);
     }
 
     @Test
@@ -38,10 +38,10 @@ class ReservationServiceTest {
         final Request request = basicRequest(2, 7);
         final Report report = reservationService.reserve(request);
 
-        Assertions.assertThat(report.getUsedPremiumRooms()).isEqualTo(2);
-        Assertions.assertThat(report.getPremiumIncome()).isEqualTo(583);
-        Assertions.assertThat(report.getUsedEconomyRooms()).isEqualTo(4);
-        Assertions.assertThat(report.getEconomyIncome()).isEqualTo(189);
+        Assertions.assertThat(report.getPremium().getRooms()).isEqualTo(2);
+        Assertions.assertThat(report.getPremium().getIncome()).isEqualTo(583);
+        Assertions.assertThat(report.getEconomy().getRooms()).isEqualTo(4);
+        Assertions.assertThat(report.getEconomy().getIncome()).isEqualTo(189);
     }
 
     @Test
@@ -49,16 +49,16 @@ class ReservationServiceTest {
         final Request request = basicRequest(7, 1);
         final Report report = reservationService.reserve(request);
 
-        Assertions.assertThat(report.getUsedPremiumRooms()).isEqualTo(7);
-        Assertions.assertThat(report.getPremiumIncome()).isEqualTo(1153);
-        Assertions.assertThat(report.getUsedEconomyRooms()).isEqualTo(1);
-        Assertions.assertThat(report.getEconomyIncome()).isEqualTo(45);
+        Assertions.assertThat(report.getPremium().getRooms()).isEqualTo(7);
+        Assertions.assertThat(report.getPremium().getIncome()).isEqualTo(1153);
+        Assertions.assertThat(report.getEconomy().getRooms()).isEqualTo(1);
+        Assertions.assertThat(report.getEconomy().getIncome()).isEqualTo(45);
     }
 
     private Request basicRequest(int premiumRoomsNumber, int economyRoomsNumber) {
         return Request.builder()
-                .freePremiumRooms(premiumRoomsNumber)
-                .freeEconomyRooms(economyRoomsNumber)
+                .emptyPremiumRooms(premiumRoomsNumber)
+                .emptyEconomyRooms(economyRoomsNumber)
                 .offers(CLIENT_OFFERS)
                 .build();
     }
