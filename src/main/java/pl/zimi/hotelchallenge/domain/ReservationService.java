@@ -1,14 +1,17 @@
 package pl.zimi.hotelchallenge.domain;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Component
 public class ReservationService {
 
-    Report reserve(final Request request) {
+    public Report reserve(final Request request) {
         final List<Integer> allPremiumOffers = filterPremiumOffers(request);
 
         final List<Integer> allEconomyOffers = filterEconomyOffers(request);
